@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from landing_app.models import Product
 from landing_app.views import *
-from landing_app.signals import session_update_singal
+# from landing_app.signals import session_update_singal
 # Create your views here.
 
 def cart_summery(request):

@@ -1,8 +1,3 @@
-    """_summary_
-
-    Returns:
-        _type_: _description_
-    """
 #python library
 from math import ceil
 
@@ -20,11 +15,7 @@ from landing_app.models import Product
 
 """this is check"""
 def check_methods(request):
-    """_summary_
-
-    Args:
-        request (_type_): _description_
-    """    
+   
     def list(self,request,*args,**kwargs):
         return super().list(request,*args,**kwargs)
     product_category = request.POST.get('product_category')
@@ -57,14 +48,7 @@ def check_methods(request):
 
 
 def getProductId(request):
-    """_summary_
-
-    Args:
-        request (_type_): _description_
-
-    Returns:
-        _type_: _description_
-    """    
+ 
     Product_id=request.POST.get('productId')
     cart=request.session.get('cart')
     if cart:
@@ -90,20 +74,17 @@ def getProductId(request):
     return added_items_info
 
 def home(request):
-    """AI is creating summary for home
 
-    Args:
-        request ([type]): [description]
-
-    Returns:
-        [type]: [description]
-    """
     request.user
     allProds=[]
-    catprods=Product.objects.values()
+    # If catprods cache the return it 
+    catprods=cache.get('Home_catprods')
+    # if catprods is none the set catprods in cache
+    if catprods is None:
+        catprods=Product.objects.values()
+        cache.set('Home_catprods',catprods,timeout=60)
+
     n=len(catprods)
-    catprods=Product.objects.values()
-    
     nSlides=n // 4 + ceil((n/4) - (n//4))
     AddedItems=getProductId(request)
     allProds.append([catprods, nSlides,AddedItems,""])
@@ -115,9 +96,11 @@ def home(request):
 
 
 def allProducts(request):
+     # If catprods cache the return it 
     catprods=cache.get('all_catprods')
     request.user
     allProds=[]
+     # if catprods is none the set catprods in cache
     if catprods is None:
         catprods=Product.objects.values().order_by('?')
         cache.set('all_catprods',catprods,timeout=90)
@@ -135,10 +118,16 @@ def allProducts_iteams(request):
         return HttpResponse(status=405)  # Method Not Allowed
 
 def EachProductDetails(request, product_id):
+
     if product_id:
-        try:
-                product=Product.objects.get(id=product_id)
-              
+        try:    
+                # if product cached the return it from cache
+                product=cache.get('EachProductDetails')
+                # if prduct is not cache them cached it
+                if product is None:
+                    product=Product.objects.get(id=product_id)
+                    cache.set('EachProductDetails',product,timeout=90)
+                
                 allProds=[]
                 AddedItems=getProductId(request)
                 allProds.append(["", " ",AddedItems,product])
@@ -155,7 +144,10 @@ def WinterProducts(request):
     request.user
     
     allProds = []
-    prod = Product.objects.filter(category="Winter")
+    prod=cache.get("WinterProducts")
+    if prod is None:
+        prod = Product.objects.filter(category="Winter")
+        cache.set("WinterProducts",prod,timeout=90)
     n = len(prod)
     nSlides = n // 4 + ceil((n / 4) - (n // 4))
     AddedItems=getProductId(request)
@@ -177,7 +169,10 @@ def ShoesProducts(request):
     request.user
     
     allProds = []
-    prod = Product.objects.filter(category="Shoes")
+    prod=cache.get("ShoesProducts")
+    if prod is None:
+        prod = Product.objects.filter(category="Shoes")
+        cache.set("ShoesProducts",prod,timeout=90)
     n = len(prod)
     nSlides = n // 4 + ceil((n / 4) - (n // 4))
     AddedItems=getProductId(request)
@@ -199,7 +194,10 @@ def MobileProducts(request):
         request.user
         
         allProds = []
-        prod = Product.objects.filter(category="Mobile")
+        prod=cache.get("MobileProducts")
+        if prod is None:
+            prod = Product.objects.filter(category="Mobile")
+            cache.set("MobileProducts",prod,timeout=90)
         n = len(prod)
         nSlides = n // 4 + ceil((n / 4) - (n // 4))
         AddedItems=getProductId(request)
@@ -219,7 +217,10 @@ def ElectronicsProducts(request):
         request.user
        
         allProds = []
-        prod = Product.objects.filter(category="Electronics")
+        prod=cache.get("ElectronicsProducts")
+        if prod is None:
+            prod = Product.objects.filter(category="Electronics")
+            cache.set("ElectronicsProducts",prod,timeout=90)
         n = len(prod)
         nSlides = n // 4 + ceil((n / 4) - (n // 4))
         AddedItems=getProductId(request)
@@ -240,7 +241,10 @@ def SummerProducts(request):
     request.user
 
     allProds = []
-    prod = Product.objects.filter(category="Summer")
+    prod=cache.get("SummerProducts")
+    if prod is None:
+        prod = Product.objects.filter(category="Summer")
+        cache.set("SummerProducts",prod,timeout=90)
     n = len(prod)
     nSlides = n // 4 + ceil((n / 4) - (n // 4))
     AddedItems=getProductId(request)
@@ -263,7 +267,10 @@ def NewToCatchProducts(request):
     allProds=[]
     # Get the current date
     current_date = timezone.now().date()
-    prod=Product.objects.filter(date_field=current_date)
+    prod=cache.get("NewToCatchProducts")
+    if prod is None:
+        prod=Product.objects.filter(date_field=current_date)
+        cache.set("NewToCatchProducts",prod,timeout=90)
     n=len(prod)
     nSlides=n // 4 + ceil((n/4) - (n//4))
     AddedItems=getProductId(request)
@@ -274,7 +281,10 @@ def NewToCatchProducts(request):
 def ToBrandsProducts(request):
     request.user
     allProds=[]
-    prod=Product.objects.filter(rating_field =int(4))
+    prod=cache.get("ToBrandsProducts")
+    if prod is None:
+        prod=Product.objects.filter(rating_field =int(4))
+        cache.set("ToBrandsProducts",prod,timeout=90)
     n=len(prod)
     nSlides=n // 4 + ceil((n/4) - (n//4))
     AddedItems=getProductId(request)
