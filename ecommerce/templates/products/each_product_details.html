@@ -1,0 +1,154 @@
+{% extends "index.html" %}
+<!DOCTYPE html>
+
+{% block style %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-PsobpJswh5A/dxTSy/AbYTf7pPXu4acIhN8T1B9s6mVzKn4l6g07xBO7flH5hKp7bFGl12D5+fxl/+fHeOZx5Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+    
+    .product-details {
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .price-section {
+        display: flex;
+        align-items: baseline;
+        margin-bottom: 10px;
+    }
+    .price {
+        font-size: 2.5rem;
+        color: #388e3c;
+        margin-right: 10px;
+    }
+    .original-price {
+        text-decoration: line-through;
+        color: #757575;
+        margin-right: 10px;
+    }
+    .discount {
+        font-size: 1.2rem;
+        color: #d32f2f;
+    }
+    .offer-section {
+        margin-top: 20px;
+        color:black;
+    }
+    .offer-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+    .offer-icon {
+        margin-right: 10px;
+        color: #4caf50;
+    }
+    .expiry-section {
+        margin-top: 20px;
+        font-size: 0.9rem;
+        color: #555;
+    }
+ 
+    .rating {
+    display: inline-flex;
+      align-items: center;
+      background-color: #4CAF50; /* Green background */
+      color: white; /* White text */
+      padding: 5px 6px;
+      border-radius: 3px;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      margin: 6px 5px;
+}
+.rating.high {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+}
+.rating.low {
+    background-color: #f44336; /* Red background */
+    color: white; /* White text */
+}
+.star {
+  margin-left: 3px;
+  font-size: 14px; /* Slightly larger star */
+}
+</style>
+{% endblock style %}
+
+<!-- ======= Product Section ======= -->
+
+{% block product %}
+{% for space,nSlides,AddedItems,product_details in allProds %}
+<div class="container-fluid">
+    <div class="row full-height">
+        <div class="col-md-6 image-container d-flex align-items-center">
+            <img src="/media/{{ product_details.image }}" alt="Product Image" class="img-fluid w-100" style="max-height: 100%;">
+        </div>
+        <div class="col-md-6 information-container d-flex flex-column justify-content-start product-details">
+            <h3 class="my-3 text-center text-success bg-light">
+                {{ product_details.Product_name }}
+            </h3>
+            <div class="price-section">
+                <div class="price" >₹{{ product_details.price }}</div>
+                <div class="original-price">₹35</div>
+                <div class="discount">20% off</div>
+                <div id="rating-display" class="rating" data-rating="{{i.rating_field}}">
+                    {{product_details.rating_field}}
+                    <span class="star">★</span>
+                </div>
+            </div>
+           
+            <p class="card-text" style="color: black;">
+                {{ product_details.desc|slice:"0:50" }}.....
+            </p>
+            <div class="offer-section" >
+                <h4>Coupons for you</h4>
+                <div class="offer-item">
+                    <i class="fas fa-tag offer-icon"></i>
+                    <span>Buy More, Save More Buy worth ₹499 save ₹50 (Minimum 2 items) </span>
+                </div>
+                <a href="#" style='padding:0px 20px'>See all products T&C</a>
+                <h4 style='padding:30px 0px 0px 0px'>Available offers</h4>
+                <div class="offer-item">
+                    <i class="fas fa-tag offer-icon"></i>
+                    <span>Special Price Get extra 3% off (price inclusive of cashback/coupon) <a href="#">T&C</a></span>
+                </div>
+                <div class="offer-item">
+                    <i class="fas fa-tag offer-icon"></i>
+                    <span>Bank Offer Get ₹50 instant discount on first Flipkart UPI transaction on order of ₹200 and above <a href="#">T&C</a></span>
+                </div>
+                <div class="offer-item">
+                    <i class="fas fa-tag offer-icon"></i>
+                    <span>Bank Offer 5% Cashback on Flipkart Axis Bank Card <a href="#">T&C</a></span>
+                </div>
+            </div>
+            <div class="expiry-section mt-3">
+                <p>Expiry Date: 12 Oct 2024</p>
+                <p>Manufactured date: 16 Apr 2024</p>
+                <div style="display: flex;   ">
+                    <div class="mt-auto" style="align-self: flex-start; position: relative;">
+                        <div id="divpr{{ product_details.id }}" class="divpr mt-2" style="float: right;">
+                            <form action="{% url 'EachProductDetails' product_details.id %}" method="POST">
+                                {% csrf_token %}
+                                <input type="text" hidden name='productId' value="{{product_details.id}}">
+                                <input type="submit" id="pr{{product_details.id}}"  value="AddToCart" class="btn btn-success cart btn-sm mt-0">
+                              </form>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</div>
+  
+  <br>
+  <br>
+  
+
+{% endfor %}  
+{% endblock product %}

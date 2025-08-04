@@ -1,0 +1,385 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>ShopeHere:{% block title %} {%endblock%}</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-PsobpJswh5A/dxTSy/AbYTf7pPXu4acIhN8T1B9s6mVzKn4l6g07xBO7flH5hKp7bFGl12D5+fxl/+fHeOZx5Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link href="{% static '/assets/img/favicon.png'  %}" rel="icon" />
+    <link
+      href="{% static '/assets/img/apple-touch-icon.png' %}"
+      rel="apple-touch-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="path/to/font-awesome/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i' %}"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!-- Vendor CSS Files -->
+    <link
+      href="{% static  'assets/vendor/bootstrap/css/bootstrap.min.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static  'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static  'assets/vendor/boxicons/css/boxicons.min.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static  'assets/vendor/glightbox/css/glightbox.min.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static  'assets/vendor/remixicon/remixicon.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static  'assets/vendor/swiper/swiper-bundle.min.css' %}"
+      rel="stylesheet"
+    />
+
+    <!-- Template Main CSS File -->
+    <link href="{% static '/assets/css/style.css' %}" rel="stylesheet" />
+
+    {% block style %} {% endblock %}
+    <style>
+      .categoriesContainer {
+        width: 100%; /* Set the width */
+        font-family: Arial, sans-serif; /* Set the font family */
+        font-size: 12px; /* Set the font size */
+        color: #333; /* Set the text color */
+        line-height: 1.5; /* Set the line height */
+
+        /* Set the stack order */
+      }
+      /* Style for the navigation menu */
+      .nav-menu {
+        list-style: none; /* Remove default list styling */
+        padding: 3px 65px;
+        margin: 0;
+        display: flex;
+        justify-content: space-around;
+        cursor: pointer;
+      }
+
+      .nav-menu li {
+        display: inline-block; /* Display list items horizontally */
+        cursor: pointer;
+      }
+
+      .nav-menu li:last-child {
+        margin-right: 0; /* Remove margin from the last list item */
+      }
+
+      .nav-link {
+        text-decoration: none; /* Remove underline from links */
+        color: #333; /* Set link color */
+        font-size: 16px; /* Set font size */
+        padding: 8px 8px; /* Add padding to create clickable area */
+      }
+
+      .nav-link:hover {
+        color: #00e2e2; /* Change link color on hover */
+      }
+      #img-pops {
+        width: 100%;
+        height: 100%;
+        object-fit:fill;
+        transition: transform 0.3s ease, filter 0.3s ease; /* Smooth transition */
+        cursor: pointer; /* Change cursor to pointer on hover */
+    }
+      .card:hover #img-pops {
+        transform: scale(1.1); /* Adjust the scale factor as needed */
+      }
+      .overflow-hidden{
+      overflow: hidden; 
+      }
+      .cursor-hover{
+      cursor:pointer
+    }
+    .img-container {
+      position: relative;
+      width: 300px; /* Adjust based on your layout */
+      height: 250px; /* Adjust based on your layout */
+      overflow: hidden;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+  }
+  .view-button {
+    position: absolute;
+    top: 50%;
+    left: 43%;
+    transform: translate(-50%, -50%);
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.3s ease,  background 0.5s ease; /* Smooth transition */
+    background:white;
+    color:black;
+    padding:10px  30px;
+    border: white;
+    box-shadow: rgba(239, 239, 240, 0.057) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.027) 0px 10px 26px -18px inset;
+
+}
+.img-container:hover #img-pops {
+  filter: blur(5px); /* Blur effect */
+}
+
+.view-button:hover{
+  background:#00A3A3;
+  border:none;
+
+}
+.img-container:hover .view-button {
+  opacity: 1; /* Show button */
+  
+}
+.flex_space-around{
+  display: flex;
+  justify-content: space-between;
+}
+
+    </style>
+  </head>
+
+  <body>
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top header_bg">
+      <div class="container d-flex align-items-center justify-content-between">
+        <!-- <h1 class="logo"><a href="index.html">Tempo</a></h1> -->
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <a href="" class="logo"
+          ><img
+            src="{% static  'assets/img/logo.png' %}"
+            alt=""
+            class="img-fluid"
+            style="max-height: 61px"
+        /></a>
+
+        <nav id="navbar" class="navbar nav_color">
+          <ul>
+            <li>
+              <a class="nav-link scrollto active" href="/allProducts">Home</a>
+            </li>
+            <li><a class="nav-link scrollto" href="">About</a></li>
+            <li><a class="nav-link scrollto" href="{% url 'Checkout'  %}" >Checkout</a></li>
+            <li><a class="nav-link scrollto" href="#profile">Payment</a></li>
+            <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+            
+              <a 
+              class="btn position-relative bg-transparent" 
+              href="{% url 'cart_summery' %}" 
+              role="button"
+              style="left: 10px"
+              >
+            <span 
+            class="position-absolute start-10 translate-middle badge rounded-pill bg-danger" 
+            style="top: -10px; right: 10px"
+            >
+            {% for product,nSlides,AddedItems,space in allProds %}
+<!-- Other product details here -->
+            <div>
+              {{ AddedItems.totalCartItenSum }}
+            </div>
+              {% endfor %}
+            
+            <span class="visually-hidden">unread messages</span>
+            </span>
+              <i class="ri-shopping-cart-line" style="font-size: 30px"></i>
+            </a>
+            
+            <li class="dropdown">
+              {% if request.user.is_authenticated %}
+              <button
+                type="button"
+                class="btn btn-primary bi bi-chevron-down"
+                style="border-radius: 70px"
+              >
+                <i class="ri-user-line"></i> {{ user.username}}
+              </button>
+
+              <ul>
+                <li><a href="/ecoauth/hendleLogout/">logout</a></li>
+              </ul>
+              {% else %}
+              <a href="#"
+                ><span
+                  ><i class="ri-user-2-fill" style="font-size: 25px"></i
+                ></span>
+                <i class="bi bi-chevron-down"></i
+              ></a>
+
+              <ul>
+                <li><a href="/ecoauth/signup/">Sign Up</a></li>
+                <li><a href="/ecoauth/hendleLogin/">login</a></li>
+              </ul>
+              {% endif %}
+            </li>
+          </ul>
+        </nav>
+        <!-- .navbar -->
+      </div>
+    </header>
+    <div class="check_out_card_body">
+        {% block cart %} 
+        
+        {% endblock cart %}
+    <div>
+      <div class="payment">
+        {% block payment %} 
+        
+        {% endblock payment %}
+    <div>
+    </div>
+    <!-- End Header -->
+
+    <!-- ======= Hero Section ======= -->
+    {% block form %} {% comment %} this block for auth {% endcomment %}
+    {%endblock %} {% block main %} {% endblock main %}
+    <!-- End Hero -->
+
+    <!-- ======= Footer ======= -->
+    {% comment %}
+    <footer id="footer">
+      <div class="footer-top">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-3 col-md-6 footer-contact">
+              <h3>Tempo</h3>
+              <p>
+                A108 Adam Street <br />
+                New York, NY 535022<br />
+                United States <br /><br />
+                <strong>Phone:</strong> +1 5589 55488 55<br />
+                <strong>Email:</strong> info@example.com<br />
+              </p>
+            </div>
+
+            <div class="col-lg-2 col-md-6 footer-links">
+              <h4>Useful Links</h4>
+              <ul>
+                <li>
+                  <i class="bx bx-chevron-right"></i> <a href="#">Home</a>
+                </li>
+                <li>
+                  <i class="bx bx-chevron-right"></i> <a href="#">About us</a>
+                </li>
+                <li>
+                  <i class="bx bx-chevron-right"></i> <a href="#">Services</a>
+                </li>
+                <li>
+                  <i class="bx bx-chevron-right"></i>
+                  <a href="#">Terms of service</a>
+                </li>
+                <li>
+                  <i class="bx bx-chevron-right"></i>
+                  <a href="#">Privacy policy</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-6 footer-links">
+              <h4>Our Services</h4>
+              <ul>
+                <li>
+                  <i class="bx bx-chevron-right"></i> <a href="#">Web Design</a>
+                </li>
+                <li>
+                  <i class="bx bx-chevron-right"></i>
+                  <a href="#">Web Development</a>
+                </li>
+                <li>
+                  <i class="bx bx-chevron-right"></i>
+                  <a href="#">Product Management</a>
+                </li>
+                <li>
+                  <i class="bx bx-chevron-right"></i> <a href="#">Marketing</a>
+                </li>
+                <li>
+                  <i class="bx bx-chevron-right"></i>
+                  <a href="#">Graphic Design</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="col-lg-4 col-md-6 footer-newsletter">
+              <h4>Join Our Newsletter</h4>
+              <p>
+                Tamen quem nulla quae legam multos aute sint culpa legam noster
+                magna
+              </p>
+              <form action="" method="post">
+                <input type="email" name="email" /><input
+                  type="submit"
+                  value="Subscribe"
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container d-md-flex py-4">
+        <div class="me-md-auto text-center text-md-start">
+          <div class="copyright">
+            &copy; Copyright <strong><span>Tempo</span></strong
+            >. All Rights Reserved
+          </div>
+          <div class="credits">
+            <!-- All the links in the footer should remain intact. -->
+            <!-- You can delete the links only if you purchased the pro version. -->
+            <!-- Licensing information: https://bootstrapmade.com/license/ -->
+            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/tempo-free-onepage-bootstrap-theme/ -->
+            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+          </div>
+        </div>
+        <div class="social-links text-center text-md-right pt-3 pt-md-0">
+          <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+          <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+          <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+          <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+          <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+        </div>
+      </div>
+    </footer>
+    {% endcomment %}
+    <!-- End Footer -->
+
+    <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
+
+    <!-- Vendor JS Files -->
+    <script src="{% static  'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static  'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static  'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static  'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+    <script src="{% static  'assets/vendor/php-email-form/validate.js' %}"></script>
+    {% block script %} {% endblock %}
+    <!-- Template Main JS File -->
+    <script src="{% static  'assets/js/main.js' %}"></script>
+  </body>
+</html>

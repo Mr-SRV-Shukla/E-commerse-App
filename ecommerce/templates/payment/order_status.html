@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% load cart_tags %}
+{% block style %}
+<style>
+    .payment-container {
+        display: flex;
+        flex-direction: column; /* Ensures proper stacking */
+        align-items: center;
+        background: linear-gradient(135deg, rgba(249, 249, 249, 0.47) 0%, rgba(0, 226, 226, 0.37) 100%);
+        padding: 5rem;
+        margin-top: 60px; /* Adjust according to header height */
+    }
+
+    .payment-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        max-width: 500px;
+        width: 100%;
+        overflow: hidden;
+
+    }
+
+    .payment-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid #e9ecef;
+        position: relative;
+    }
+
+    .payment-close {
+        position: absolute;
+        right: 1.5rem;
+        top: 1.5rem;
+        color: #6c757d;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .payment-close:hover {
+        color:rgb(203, 81, 54);
+    }
+
+    .payment-content {
+        padding: 2rem;
+    }
+
+    .payment-title {
+        color: #FD7E00;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .payment-subtitle {
+        color: #6c757d;
+        margin-bottom: 2rem;
+    }
+
+    .payment-summary {
+        margin-bottom: 2rem;
+    }
+
+    .summary-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px dashed #dee2e6;
+    }
+
+    .summary-item:last-child {
+        border-bottom: none;
+    }
+
+    .total-amount {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #FD7E00;
+    }
+
+    .btn-track {
+        background:rgb(252, 148, 43);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn-track:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,76,185,0.3);
+        color:rgb(249, 145, 41) ;
+        /* Optional: Add a subtle scale effect */
+        transform: translateY(-2px) scale(1.02);
+    }
+ #order_id{
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #FD7E00;
+}
+</style>
+{% endblock %}
+
+{% block payment %}
+<div class="payment-container">
+    <div class="payment-card">
+        <div class="payment-header">
+            
+            <h5 class="text-muted mb-0">{{ user.username }}</h5>
+        </div>
+        
+        <div class="payment-content">
+            <h1 class="payment-title">Thank You!</h1>
+            {% for order_id, no_of_items, AddedItems, items_ids in allProds %}
+            <p class="payment-subtitle">Your order has been confirmed, your order id is : <span id="order_id">{{ order_id }}</span></p>
+            {% endfor %}
+            
+            <div class="payment-summary">
+                <h6 class="text-uppercase text-muted mb-4">Payment Summary</h6>
+            
+                
+                {% for order_id, no_of_items, AddedItems, items_ids in allProds %}
+                {% if items_ids %}
+                {% for items_id in items_ids %}
+                {% get_product_details items_id as product_details %}
+                {% if product_details %}
+                <div class="summary-item">
+                    {% get_quantity_of_each_product request items_id as quantity %}
+                    <span>{{ product_details.Product_name }} (Qty:{{ quantity }} )</span>
+                    {% get_product_price request items_id as product_price %}
+                    <span>₹{{ product_price }}</span>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                {% endfor %}
+                {% for product, no_of_items, AddedItems, items_ids in allProds %}
+                {% get_total_product_price request items_ids as total_product_price %}
+                
+                <div class="summary-item pt-3">
+                    <strong>Total</strong>
+                    <span class="total-amount">₹{{ total_product_price }}</span>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-track">
+                    <i class="fas fa-map-marker-alt mr-2"></i>
+                    Track Your Order
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

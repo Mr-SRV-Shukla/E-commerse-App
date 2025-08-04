@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+{% block title %} SignUp {% endblock %} {% block style %}
+<style>
+  /* Import Google font - Poppins */
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+  html,
+  body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+  .bg-image {
+    /* The image used */
+    background-color: #00957a80;
+
+    /* Add the blur effect */
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+
+    /* Full height */
+    height: 80vh;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .signUp-container {
+    background-attachment: scroll;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 430px;
+    width: 100%;
+    background: #fff;
+    border-radius: 7px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1; /* Set the stack order */
+  }
+  /*.signUp-container .registration {
+    display: none;
+  }
+  #check:checked ~ .registration {
+    display: block;
+  }
+   #check:checked ~ .login {
+    display: none;
+  }
+  #check {
+    display: none;
+  } */
+  .signUp-container .form {
+    padding: 2rem;
+  }
+  .form header {
+    font-size: 2rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  .form input {
+    height: 60px;
+    width: 100%;
+    padding: 0 15px;
+    font-size: 17px;
+    margin-bottom: 1.3rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+  }
+  .form input:focus {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+  }
+  .form a {
+    font-size: 16px;
+    color: #009579;
+    text-decoration: none;
+  }
+  .form a:hover {
+    text-decoration: underline;
+  }
+  .form input.button {
+    color: #fff;
+    background: #009579;
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-top: 1.7rem;
+    cursor: pointer;
+    transition: 0.4s;
+  }
+  .form input.button:hover {
+    background: #006653;
+  }
+  .signup {
+    font-size: 17px;
+    text-align: center;
+  }
+  .signup label {
+    color: #009579;
+    cursor: pointer;
+  }
+  .signup label:hover {
+    text-decoration: underline;
+  }
+</style>
+{% endblock %} {% block form %}
+<div class="bg-image"></div>
+<div class="signUp-container">
+  {% comment %} <input type="checkbox" id="check" /> {% endcomment %}
+  <div class="login form">
+    <header>Login</header>
+    <form action="/ecoauth/hendleLogin/" method="POST">
+      {% csrf_token %}
+
+      <input type="text" placeholder="Enter your email" name="username" />
+      <input
+        type="password"
+        placeholder="Enter your password"
+        name="password"
+      />
+      {% for message in messages %}
+      <div
+        class="alert alert-{{message.tags}} alert-dismissible fade show"
+        role="alert"
+      >
+        <strong></strong>{{message}}
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      {% endfor %}
+
+      <!-- end of dispaly massges  -->
+      <a href="/ecoauth/reset-email/">Forgot password?</a>
+      <input type="submit" class="button" value="Login" />
+    </form>
+    <div class="signup">
+      <span class="signup">
+        Don't have an account?
+        <label for="check"><a href="/ecoauth/signup/">Sign Up</a></label>
+      </span>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
