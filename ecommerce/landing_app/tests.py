@@ -15,3 +15,15 @@ def test_dummy(name:str,age:int)->Dict:
         Dict: _description_
     """    
     return {"name":name,"age":age}
+
+
+def test_dummy2(data):
+    """_summary_
+
+    Args:
+        data (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """    
+    return data
